@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=cts
+      - MYSQL_USER=cts
+      - MYSQL_PASSWORD=qwe123asd
+      - MYSQL_RANDOM_ROOT_PASSWORD=1
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+
+  nginx:
+    build: ./docker/nginx
+    volumes:
+      - ./source:/var/www:cached
+      - ./docker/nginx/sites/default.conf:/etc/nginx/sites-available/default.conf
+      - ./docker/logs/nginx/:/var/log/nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ./docker/php-fpm
+      args:
+        - INSTALL_XDEBUG=true
+        - INSTALL_OPCACHE=true
+    volumes:
+      - ./source:/var/www:cached
+    command: sh -c "composer install; bin/console d:m:migrate -n; php-fpm7 -F"
+    depends_on:
+      - mysql
+    expose:
+      - "9000"
+
+  node:
+    image: node:10-alpine
+    volumes:
+      - ./source:/var/www
+    command: sh -c "yarn install; yarn encore production --watch"
+    working_dir: /var/www
