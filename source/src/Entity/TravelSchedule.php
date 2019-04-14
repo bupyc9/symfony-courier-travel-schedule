@@ -27,7 +27,7 @@ class TravelSchedule
     private $region;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Courier", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Courier")
      * @ORM\JoinColumn(nullable=false)
      */
     private $courier;
