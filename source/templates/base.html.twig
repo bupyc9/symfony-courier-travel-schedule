@@ -15,7 +15,12 @@
 </head>
 <body>
 <div class="container">
-
+    <div class="row justify-content-md-center">
+        <main class="col" role="main">
+            <h1>{% block h1 %}{% endblock %}</h1>
+            {% block body %}{% endblock %}
+        </main>
+    </div>
 </div>
 {{ encore_entry_script_tags('app') }}
 </body>

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'pages_title.main'|trans }}{% endblock %}
+{% block h1 %}{{ 'pages_title.main'|trans }}{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">{{ 'travel_schedule.region'|trans }}</th>
+            <th scope="col">{{ 'travel_schedule.courier'|trans }}</th>
+            <th scope="col">{{ 'travel_schedule.dateDeparture'|trans }}</th>
+            <th scope="col">{{ 'travel_schedule.dateArrival'|trans }}</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <th scope="row">{{ item.id }}</th>
+                <td>{{ item.region.title }}</td>
+                <td>{{ item.courier.fio }}</td>
+                <td>{{ item.dateDeparture | date('d.m.Y H:i:s') }}</td>
+                <td>{{ item.dateArrival | date('d.m.Y H:i:s') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(items) }}
+    </div>
+{% endblock %}

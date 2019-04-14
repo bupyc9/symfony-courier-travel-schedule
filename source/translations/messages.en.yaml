@@ -1,0 +1,8 @@
+pages_title:
+  main: Travel schedule
+
+travel_schedule:
+  region: Region
+  courier: Courier
+  dateDeparture: Date departure
+  dateArrival: Date arrival

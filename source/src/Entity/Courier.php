@@ -74,4 +74,9 @@ class Courier
 
         return $this;
     }
+
+    public function getFio(): string
+    {
+        return implode(' ', [$this->firstName, $this->lastName, $this->secondName]);
+    }
 }
