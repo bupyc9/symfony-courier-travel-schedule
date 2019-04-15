@@ -1,0 +1,16 @@
+pages_title:
+  main: Расписание поездок
+  create_travel_schedule: Создать расписание поездки
+
+base:
+  add: Добавить
+  apply: Применить
+
+travel_schedule:
+  region: Регион
+  courier: Курьер
+  dateDeparture: Дата выезда
+  dateArrival: Дата прибытия
+
+errors:
+  courier_is_on_trip: Курьер в поездке на данный период

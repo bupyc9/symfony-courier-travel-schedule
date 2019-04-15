@@ -65,6 +65,7 @@ class CourierIsOnTripValidator extends ConstraintValidator
         }
 
         $this->context->buildViolation($constraint->message)
+            ->setTranslationDomain('messages')
             ->setParameter('{{ value }}', $value)
             ->addViolation();
     }

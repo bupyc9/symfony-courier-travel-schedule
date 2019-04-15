@@ -15,5 +15,5 @@ class CourierIsOnTrip extends Constraint
      * Any public properties become valid options for the annotation.
      * Then, use these in your validator class.
      */
-    public $message = 'The courier is on a trip for the period';
+    public $message = 'errors.courier_is_on_trip';
 }

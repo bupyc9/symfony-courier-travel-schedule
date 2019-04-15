@@ -42,8 +42,13 @@ class TravelScheduleType extends AbstractType
 
         $builder
             ->setAction($this->router->generate('travel_schedule_store'))
-            ->add('courier', EntityType::class, ['class' => Courier::class, 'choices' => $couriers])
+            ->add('courier', EntityType::class, [
+                'label' => 'travel_schedule.courier',
+                'class' => Courier::class,
+                'choices' => $couriers,
+            ])
             ->add('region', EntityType::class, [
+                'label' => 'travel_schedule.region',
                 'class' => Region::class,
                 'attr' => ['class' => 'region-js'],
                 'choices' => $regions,
@@ -52,14 +57,16 @@ class TravelScheduleType extends AbstractType
                 },
             ])
             ->add('dateDeparture', DateType::class, [
+                'label' => 'travel_schedule.dateDeparture',
                 'attr' => ['class' => 'date-departure-js'],
                 'widget' => 'single_text',
             ])
             ->add('dateArrival', TextType::class, [
+                'label' => 'travel_schedule.dateArrival',
                 'attr' => ['readonly' => 'readonly', 'class' => 'date-arrival-js'],
                 'mapped' => false,
             ])
-            ->add('save', SubmitType::class)
+            ->add('add', SubmitType::class, ['label' => 'base.add'])
         ;
     }
 

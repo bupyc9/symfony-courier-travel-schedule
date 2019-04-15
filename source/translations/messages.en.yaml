@@ -4,9 +4,13 @@ pages_title:
 
 base:
   add: Add
+  apply: Apply
 
 travel_schedule:
   region: Region
   courier: Courier
   dateDeparture: Date departure
   dateArrival: Date arrival
+
+errors:
+  courier_is_on_trip: The courier is on a trip for the period
