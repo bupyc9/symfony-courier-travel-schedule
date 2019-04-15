@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -33,6 +35,11 @@ class Courier
      * @ORM\Column(type="string", length=255)
      */
     private $secondName;
+
+    public function __toString()
+    {
+        return $this->getFio();
+    }
 
     public function getId(): ?int
     {
@@ -77,11 +84,6 @@ class Courier
 
     public function getFio(): string
     {
-        return implode(' ', [$this->firstName, $this->lastName, $this->secondName]);
-    }
-
-    public function __toString()
-    {
-        return $this->getFio();
+        return \implode(' ', [$this->firstName, $this->lastName, $this->secondName]);
     }
 }

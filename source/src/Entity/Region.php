@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -29,6 +31,11 @@ class Region
      */
     private $travelTime;
 
+    public function __toString()
+    {
+        return $this->getTitle() ?? '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -56,10 +63,5 @@ class Region
         $this->travelTime = $travelTime;
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->getTitle() ?? '';
     }
 }

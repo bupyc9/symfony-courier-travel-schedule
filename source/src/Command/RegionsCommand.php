@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\Region;
@@ -12,6 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class RegionsCommand extends Command
 {
     protected static $defaultName = 'app:regions';
+
     /**
      * @var EntityManagerInterface
      */
@@ -31,7 +34,7 @@ class RegionsCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
 
