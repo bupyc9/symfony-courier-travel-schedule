@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\DTO\FilterTravelScheduleDTO;
 use App\DTO\TravelScheduleDTO;
 use App\Entity\TravelSchedule;
+use App\Form\FilterTravelScheduleType;
 use App\Form\TravelScheduleType;
 use Carbon\Carbon;
 use Exception;
@@ -49,7 +51,14 @@ class TravelScheduleController extends AbstractController
      */
     public function index(Request $request): Response
     {
+        $dto = new FilterTravelScheduleDTO();
+        $form = $this->createForm(FilterTravelScheduleType::class, $dto);
+        $form->handleRequest($request);
+
         $query = $this->getDoctrine()->getRepository(TravelSchedule::class)->createQueryBuilder('self')
+            ->andWhere('self.dateDeparture >= :dateDeparture')
+            ->andWhere('self.dateArrival <= :dateArrival')
+            ->setParameters(['dateDeparture' => $dto->getDateDeparture(), 'dateArrival' => $dto->getDateArrival()])
             ->join('self.courier', 'courier')
             ->join('self.region', 'region')
             ->addSelect(['courier', 'region'])
@@ -60,7 +69,7 @@ class TravelScheduleController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $authors = $this->paginator->paginate($query, $page, self::ITEMS_ON_PAGE);
 
-        return $this->render('travel_schedule/index.html.twig', ['items' => $authors]);
+        return $this->render('travel_schedule/index.html.twig', ['items' => $authors, 'form' => $form->createView()]);
     }
 
     /**
@@ -82,7 +91,7 @@ class TravelScheduleController extends AbstractController
      *
      * @return JsonResponse
      *
-     * @Route("/", name="travel_schedule_store", methods={"POST"})
+     * @Route("/create", name="travel_schedule_store", methods={"POST"})
      */
     public function store(Request $request): JsonResponse
     {
