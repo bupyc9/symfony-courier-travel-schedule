@@ -4,6 +4,7 @@
 {% block h1 %}{{ 'pages_title.main'|trans }}{% endblock %}
 
 {% block body %}
+    <a href="{{ path('travel_schedule_create') }}" class="btn btn-primary mb-2 travel-schedule-popup-js">{{ 'base.add'|trans }}</a>
     <table class="table">
         <thead>
         <tr>

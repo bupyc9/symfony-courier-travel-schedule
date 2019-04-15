@@ -1,5 +1,9 @@
 pages_title:
   main: Travel schedule
+  create_travel_schedule: Create travel schedule
+
+base:
+  add: Add
 
 travel_schedule:
   region: Region
