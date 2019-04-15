@@ -79,4 +79,9 @@ class Courier
     {
         return implode(' ', [$this->firstName, $this->lastName, $this->secondName]);
     }
+
+    public function __toString()
+    {
+        return $this->getFio();
+    }
 }
