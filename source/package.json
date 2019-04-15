@@ -17,5 +17,7 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "dependencies": {}
+    "dependencies": {
+        "magnific-popup": "^1.1.0"
+    }
 }

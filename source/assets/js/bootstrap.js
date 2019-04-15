@@ -13,3 +13,5 @@ try {
 
     require('bootstrap');
 } catch (e) {}
+
+require('magnific-popup');
