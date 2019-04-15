@@ -21,8 +21,8 @@ class FilterTravelScheduleDTO
 
     public function __construct()
     {
-        $this->dateDeparture = Carbon::now()->setTime(0, 0);
-        $this->dateArrival = Carbon::now()->addDays(1)->setTime(0, 0);
+        $this->dateDeparture = Carbon::now()->setTime(0, 0)->subDays(7);
+        $this->dateArrival = Carbon::now()->addDays(7)->setTime(0, 0);
     }
 
     public function getDateDeparture(): ?DateTimeInterface
