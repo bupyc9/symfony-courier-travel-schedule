@@ -32,6 +32,11 @@ class TravelScheduleDTO
      */
     private $dateDeparture;
 
+    public function __toString(): string
+    {
+        return '['.$this->region->getTitle().'] '.$this->courier->getFio();
+    }
+
     public function getCourier(): ?Courier
     {
         return $this->courier;

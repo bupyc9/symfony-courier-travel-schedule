@@ -63,7 +63,6 @@ class TravelScheduleController extends AbstractController
             ->join('self.region', 'region')
             ->addSelect(['courier', 'region'])
             ->orderBy('self.dateDeparture', 'ASC')
-            ->orderBy('self.dateArrival', 'ASC')
             ->getQuery()
         ;
         $page = $request->query->getInt('page', 1);
@@ -91,7 +90,7 @@ class TravelScheduleController extends AbstractController
      *
      * @return JsonResponse
      *
-     * @Route("/create", name="travel_schedule_store", methods={"POST"})
+     * @Route("/store", name="travel_schedule_store", methods={"POST"})
      */
     public function store(Request $request): JsonResponse
     {

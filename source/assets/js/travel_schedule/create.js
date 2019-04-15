@@ -61,14 +61,16 @@ $(function () {
                         return;
                     }
 
+                    if (!response.hasOwnProperty('errors')) {
+                        return;
+                    }
+
                     $container.find('.errors').remove();
 
                     let errors = '<ul class="errors">';
-                    for (let items in response.errors) {
-                        for (let item in items) {
-                            errors += '<li>' + item + '</li>';
-                        }
-                    }
+                    response.errors.forEach(function (value) {
+                        errors += '<li>' + value + '</li>';
+                    });
                     errors += '</ul>';
 
                     $container.prepend(errors);

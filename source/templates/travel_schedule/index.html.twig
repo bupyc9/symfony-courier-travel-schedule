@@ -27,8 +27,8 @@
                 <th scope="row">{{ item.id }}</th>
                 <td>{{ item.region.title }}</td>
                 <td>{{ item.courier.fio }}</td>
-                <td>{{ item.dateDeparture | date('d.m.Y H:i:s') }}</td>
-                <td>{{ item.dateArrival | date('d.m.Y H:i:s') }}</td>
+                <td>{{ item.dateDeparture | date('d.m.Y') }}</td>
+                <td>{{ item.dateArrival | date('d.m.Y') }}</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -7,6 +7,7 @@ namespace App\Form;
 use App\DTO\TravelScheduleDTO;
 use App\Entity\Courier;
 use App\Entity\Region;
+use App\Validator\CourierIsOnTrip;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -66,6 +67,7 @@ class TravelScheduleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TravelScheduleDTO::class,
+            'constraints' => [new CourierIsOnTrip()],
         ]);
     }
 }
