@@ -15,3 +15,5 @@ try {
 } catch (e) {}
 
 require('magnific-popup');
+
+require('moment');
