@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Validator;
 
 use App\DTO\TravelScheduleDTO;
-use App\Entity\TravelSchedule;
+use App\Repository\TravelScheduleRepository;
 use Carbon\Carbon;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -16,13 +15,13 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 class CourierIsOnTripValidator extends ConstraintValidator
 {
     /**
-     * @var EntityManagerInterface
+     * @var TravelScheduleRepository
      */
-    private $entityManager;
+    private $repository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(TravelScheduleRepository $repository)
     {
-        $this->entityManager = $entityManager;
+        $this->repository = $repository;
     }
 
     /**
@@ -46,7 +45,7 @@ class CourierIsOnTripValidator extends ConstraintValidator
         $dateArrival = Carbon::instance(clone $value->getDateDeparture());
         $dateArrival->addDays($value->getRegion()->getTravelTime())->setTime(0, 0);
 
-        $result = $this->entityManager->getRepository(TravelSchedule::class)->createQueryBuilder('self')
+        $result = $this->repository->createQueryBuilder('self')
             ->andWhere('self.dateDeparture >= :dateDeparture AND self.dateDeparture <= :dateArrival')
             ->orWhere('self.dateArrival >= :dateDeparture AND self.dateArrival <= :dateArrival')
             ->andWhere('self.courier = :courier')
