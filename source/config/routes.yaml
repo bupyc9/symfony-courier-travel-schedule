@@ -1,3 +1,14 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+travel_schedule:
+  path: /
+  controller: App\Controller\TravelScheduleController::index
+  methods: [HEAD, GET]
+
+travel_schedule_store:
+  path: /
+  controller: App\Controller\TravelScheduleController::store
+  methods: [POST]
+
+travel_schedule_create:
+  path: /create
+  controller: App\Controller\TravelScheduleController::create
+

@@ -18,7 +18,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class TravelScheduleController extends AbstractController
 {
@@ -62,13 +61,6 @@ class TravelScheduleController extends AbstractController
         return $this;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     *
-     * @Route("/", name="travel_schedule", methods={"GET", "HEAD"})
-     */
     public function index(Request $request): Response
     {
         $dto = new FilterTravelScheduleDTO();
@@ -91,11 +83,6 @@ class TravelScheduleController extends AbstractController
         return $this->render('travel_schedule/index.html.twig', ['items' => $authors, 'form' => $form->createView()]);
     }
 
-    /**
-     * @return Response
-     *
-     * @Route("/create", name="travel_schedule_create")
-     */
     public function create(): Response
     {
         $form = $this->createForm(TravelScheduleType::class);
@@ -109,8 +96,6 @@ class TravelScheduleController extends AbstractController
      * @throws Exception
      *
      * @return JsonResponse
-     *
-     * @Route("/store", name="travel_schedule_store", methods={"POST"})
      */
     public function store(Request $request): JsonResponse
     {
