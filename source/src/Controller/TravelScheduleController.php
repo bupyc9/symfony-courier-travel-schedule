@@ -9,6 +9,7 @@ use App\DTO\TravelScheduleDTO;
 use App\Entity\TravelSchedule;
 use App\Form\FilterTravelScheduleType;
 use App\Form\TravelScheduleType;
+use App\Repository\TravelScheduleRepository;
 use Carbon\Carbon;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
@@ -29,6 +30,11 @@ class TravelScheduleController extends AbstractController
     private $paginator;
 
     /**
+     * @var TravelScheduleRepository
+     */
+    private $repository;
+
+    /**
      * @param PaginatorInterface $paginator
      *
      * @return TravelScheduleController
@@ -38,6 +44,20 @@ class TravelScheduleController extends AbstractController
     public function setPaginator(PaginatorInterface $paginator): self
     {
         $this->paginator = $paginator;
+
+        return $this;
+    }
+
+    /**
+     * @param TravelScheduleRepository $repository
+     *
+     * @return TravelScheduleController
+     *
+     * @required
+     */
+    public function setRepository(TravelScheduleRepository $repository): self
+    {
+        $this->repository = $repository;
 
         return $this;
     }
@@ -55,7 +75,7 @@ class TravelScheduleController extends AbstractController
         $form = $this->createForm(FilterTravelScheduleType::class, $dto);
         $form->handleRequest($request);
 
-        $query = $this->getDoctrine()->getRepository(TravelSchedule::class)->createQueryBuilder('self')
+        $query = $this->repository->createQueryBuilder('self')
             ->andWhere('self.dateDeparture >= :dateDeparture')
             ->andWhere('self.dateArrival <= :dateArrival')
             ->setParameters(['dateDeparture' => $dto->getDateDeparture(), 'dateArrival' => $dto->getDateArrival()])
