@@ -67,16 +67,7 @@ class TravelScheduleController extends AbstractController
         $form = $this->createForm(FilterTravelScheduleType::class, $dto);
         $form->handleRequest($request);
 
-        $query = $this->repository->createQueryBuilder('self')
-            ->andWhere('self.dateDeparture >= :dateDeparture')
-            ->andWhere('self.dateArrival <= :dateArrival')
-            ->setParameters(['dateDeparture' => $dto->getDateDeparture(), 'dateArrival' => $dto->getDateArrival()])
-            ->join('self.courier', 'courier')
-            ->join('self.region', 'region')
-            ->addSelect(['courier', 'region'])
-            ->orderBy('self.dateDeparture', 'ASC')
-            ->getQuery()
-        ;
+        $query = $this->repository->createQueryBuilderByPeriod($dto->getDateDeparture(), $dto->getDateArrival());
         $page = $request->query->getInt('page', 1);
         $authors = $this->paginator->paginate($query, $page, self::ITEMS_ON_PAGE);
 

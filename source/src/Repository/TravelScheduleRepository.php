@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\TravelSchedule;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,5 +21,18 @@ class TravelScheduleRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, TravelSchedule::class);
+    }
+
+    public function createQueryBuilderByPeriod(DateTimeInterface $dateDeparture, DateTimeInterface $dateArrival): Query
+    {
+        return $this->createQueryBuilder('self')
+        ->andWhere('self.dateDeparture >= :dateDeparture')
+        ->andWhere('self.dateArrival <= :dateArrival')
+        ->setParameters(['dateDeparture' => $dateDeparture, 'dateArrival' => $dateArrival])
+        ->join('self.courier', 'courier')
+        ->join('self.region', 'region')
+        ->addSelect(['courier', 'region'])
+        ->orderBy('self.dateDeparture', 'ASC')
+        ->getQuery();
     }
 }
