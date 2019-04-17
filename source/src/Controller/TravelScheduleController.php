@@ -13,8 +13,6 @@ use App\Repository\TravelScheduleRepository;
 use Carbon\Carbon;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -126,28 +124,5 @@ class TravelScheduleController extends AbstractController
         ];
 
         return new JsonResponse($data);
-    }
-
-    private function getFormErrors(FormInterface $form): array
-    {
-        $errors = [];
-
-        foreach ($form->getErrors() as $name => $error) {
-            $errors[] = $error->getMessage();
-        }
-
-        foreach ($form->all() as $name => $child) {
-            if ($child->isSubmitted() && $child->isValid()) {
-                continue;
-            }
-
-            $child->count() > 0 && $errors[$name] = $this->getFormErrors($child);
-
-            foreach ($child->getErrors() as $error) {
-                $errors[$name][] = $error->getMessage();
-            }
-        }
-
-        return $errors;
     }
 }
