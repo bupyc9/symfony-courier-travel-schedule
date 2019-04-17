@@ -40,8 +40,10 @@ class TravelScheduleRepository extends ServiceEntityRepository
     public function findPeriodIntersections(Courier $courier, DateTimeInterface $dateDeparture, DateTimeInterface $dateArrival): array
     {
         return $this->createQueryBuilder('self')
-            ->andWhere('self.dateDeparture >= :dateDeparture AND self.dateDeparture <= :dateArrival')
-            ->orWhere('self.dateArrival >= :dateDeparture AND self.dateArrival <= :dateArrival')
+            ->where(':dateDeparture BETWEEN self.dateDeparture AND self.dateArrival')
+            ->orWhere(':dateArrival BETWEEN self.dateDeparture AND self.dateArrival')
+            ->orWhere('self.dateDeparture BETWEEN :dateDeparture AND :dateArrival')
+            ->orWhere('self.dateArrival BETWEEN :dateDeparture AND :dateArrival')
             ->andWhere('self.courier = :courier')
             ->setParameters(
                 [
