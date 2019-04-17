@@ -45,19 +45,11 @@ class CourierIsOnTripValidator extends ConstraintValidator
         $dateArrival = Carbon::instance(clone $value->getDateDeparture());
         $dateArrival->addDays($value->getRegion()->getTravelTime())->setTime(0, 0);
 
-        $result = $this->repository->createQueryBuilder('self')
-            ->andWhere('self.dateDeparture >= :dateDeparture AND self.dateDeparture <= :dateArrival')
-            ->orWhere('self.dateArrival >= :dateDeparture AND self.dateArrival <= :dateArrival')
-            ->andWhere('self.courier = :courier')
-            ->setParameters(
-                [
-                    'courier' => $value->getCourier(),
-                    'dateDeparture' => $value->getDateDeparture(),
-                    'dateArrival' => $dateArrival,
-                ]
-            )
-            ->getQuery()
-            ->getResult();
+        $result = $this->repository->findPeriodIntersections(
+            $value->getCourier(),
+            $value->getDateDeparture(),
+            $dateArrival
+        );
 
         if (0 === \count($result)) {
             return;

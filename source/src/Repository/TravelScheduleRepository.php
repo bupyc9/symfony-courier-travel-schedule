@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Courier;
 use App\Entity\TravelSchedule;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -34,5 +35,22 @@ class TravelScheduleRepository extends ServiceEntityRepository
         ->addSelect(['courier', 'region'])
         ->orderBy('self.dateDeparture', 'ASC')
         ->getQuery();
+    }
+
+    public function findPeriodIntersections(Courier $courier, DateTimeInterface $dateDeparture, DateTimeInterface $dateArrival): array
+    {
+        return $this->createQueryBuilder('self')
+            ->andWhere('self.dateDeparture >= :dateDeparture AND self.dateDeparture <= :dateArrival')
+            ->orWhere('self.dateArrival >= :dateDeparture AND self.dateArrival <= :dateArrival')
+            ->andWhere('self.courier = :courier')
+            ->setParameters(
+                [
+                    'courier' => $courier,
+                    'dateDeparture' => $dateDeparture,
+                    'dateArrival' => $dateArrival,
+                ]
+            )
+            ->getQuery()
+            ->getResult();
     }
 }
