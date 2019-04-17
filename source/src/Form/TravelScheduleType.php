@@ -7,8 +7,9 @@ namespace App\Form;
 use App\DTO\TravelScheduleDTO;
 use App\Entity\Courier;
 use App\Entity\Region;
+use App\Repository\CourierRepository;
+use App\Repository\RegionRepository;
 use App\Validator\CourierIsOnTrip;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -25,20 +26,28 @@ class TravelScheduleType extends AbstractType
      */
     private $router;
     /**
-     * @var EntityManagerInterface
+     * @var CourierRepository
      */
-    private $entityManager;
+    private $courierRepository;
+    /**
+     * @var RegionRepository
+     */
+    private $regionRepository;
 
-    public function __construct(RouterInterface $router, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        RouterInterface $router,
+        CourierRepository $courierRepository,
+        RegionRepository $regionRepository
+    ) {
         $this->router = $router;
-        $this->entityManager = $entityManager;
+        $this->courierRepository = $courierRepository;
+        $this->regionRepository = $regionRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $couriers = $this->entityManager->getRepository(Courier::class)->findAll();
-        $regions = $this->entityManager->getRepository(Region::class)->findAll();
+        $couriers = $this->courierRepository->findAll();
+        $regions = $this->regionRepository->findAll();
 
         $builder
             ->setAction($this->router->generate('travel_schedule_store'))
